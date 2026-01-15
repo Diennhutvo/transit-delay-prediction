@@ -1,0 +1,21 @@
+# Ignore raw & interim data files
+data/raw/*
+data/interim/*
+
+# Keep folder structure
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+
+# Optional: ignore processed if large
+# data/processed/*
+
+# Secrets
+.env
+*.key
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
