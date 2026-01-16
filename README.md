@@ -1,8 +1,8 @@
 ## Setup
 
 ### 1) Clone the repo
-git clone <repo_url>
-cd transit_delay_prediction
+git clone https://github.com/Diennhutvo/transit-delay-prediction
+cd transit-delay-prediction
 
 ### 2) Create and activate a virtual environment
 python -m venv .venv
@@ -26,3 +26,4 @@ TRANSLINK_API_KEY=YOUR_KEY_HERE
 ### 5) Run scripts
 python scripts/test_gtfs_rt_trip_updates.py
 python scripts/parse_trip_updates_to_csv.py
+
