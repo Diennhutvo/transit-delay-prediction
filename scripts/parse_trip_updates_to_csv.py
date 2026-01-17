@@ -71,7 +71,7 @@ df = pd.DataFrame(rows)
 
 # Convert delay to minutes + label
 df["delay_min"] = df["delay_sec"] / 60.0
-df["delay_15plus"] = df["delay_min"] >= 15
+df["delay_10plus"] = df["delay_min"] >= 10  # Changed from 15 to 10 minutes
 
 out_path = out_dir / f"trip_updates_parsed_{feed_ts}.csv"
 df.to_csv(out_path, index=False)
@@ -79,4 +79,4 @@ df.to_csv(out_path, index=False)
 print("Parsed latest file:", latest_pb.name)
 print("Rows:", len(df))
 print("Saved CSV:", out_path)
-print(df[["route_id", "trip_id", "stop_id", "delay_min", "delay_15plus"]].head(10))
+print(df[["route_id", "trip_id", "stop_id", "delay_min", "delay_10plus"]].head(10))
