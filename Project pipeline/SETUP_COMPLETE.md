@@ -69,8 +69,7 @@ transit-delay-prediction/
 │   │   ├── gtfs_static/                # Static GTFS files (routes, stops, trips, etc.)
 │   │   └── gtfs_rt/                    # GTFS real-time data (ignored by Git)
 │   │       └── trip_updates/           # Raw .pb files from TransLink API
-│   │           ├── trip_updates_1768610591.pb
-│   │           └── trip_updates_1768610617.pb
+│   │           ├── trip_updates_1768610856.pb
 │   └── interim/
 │       ├── gtfs_rt/                    # Parsed real-time outputs
 │       │   ├── trip_updates_parsed_1768610586.csv
@@ -106,6 +105,7 @@ transit-delay-prediction/
 ├── .gitignore                          # Data & environment rules
 └── README.md
 
+```
 
 ---
 
@@ -157,7 +157,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 
 model = LogisticRegression(class_weight='balanced', max_iter=1000)
 model.fit(X_train, y_train)
-```
+
 
 #### 4. Evaluation
 
