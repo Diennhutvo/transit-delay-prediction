@@ -1,3 +1,4 @@
+```
 transit-delay-prediction/
 ├── data/
 │   ├── raw/
@@ -39,4 +40,5 @@ transit-delay-prediction/
 ├── .env                                # API credentials (not committed)
 ├── .gitignore                          # Data & environment rules
 └── README.md
+```
 
