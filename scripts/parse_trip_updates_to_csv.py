@@ -2,10 +2,12 @@ from pathlib import Path
 import pandas as pd
 from google.transit import gtfs_realtime_pb2
 
+# Real time data is in Protocol Buffers format
 # --- Paths ---
 pb_dir = Path("data/raw/gtfs_rt/trip_updates")
 out_dir = Path("data/interim/gtfs_rt")
 out_dir.mkdir(parents=True, exist_ok=True)
+# ensures the output folder exists so the script won’t crash when saving.
 
 # --- Pick latest .pb file ---
 pb_files = sorted(pb_dir.glob("trip_updates_*.pb"))
@@ -13,6 +15,7 @@ if not pb_files:
     raise FileNotFoundError(f"No .pb files found in {pb_dir}. Run the download script first.")
 
 latest_pb = pb_files[-1]
+# selects the most recent snapshot.
 
 # --- Read + decode ---
 feed = gtfs_realtime_pb2.FeedMessage()
@@ -24,6 +27,7 @@ feed_ts = feed.header.timestamp  # unix seconds
 for ent in feed.entity:
     if not ent.HasField("trip_update"):
         continue
+# skip entities without trip updates
 
     tu = ent.trip_update
     trip = tu.trip
@@ -38,6 +42,7 @@ for ent in feed.entity:
     for stu in tu.stop_time_update:
         stop_id = getattr(stu, "stop_id", None)
         stop_sequence = getattr(stu, "stop_sequence", None)
+# loop through stop time updates and extract relevant fields
 
         # delay can exist on arrival or departure
         arr_delay = stu.arrival.delay if stu.HasField("arrival") and stu.arrival.HasField("delay") else None
@@ -49,7 +54,13 @@ for ent in feed.entity:
         # predicted actual times (epoch seconds) if available
         arr_time = stu.arrival.time if stu.HasField("arrival") and stu.arrival.HasField("time") else None
         dep_time = stu.departure.time if stu.HasField("departure") and stu.departure.HasField("time") else None
+# the step above extracts delay information from GTFS-Realtime stop updates
+# Standardizes delay into a single variable (delay_sec)
+# Extracts predicted actual arrival/departure times, if available
+# Handles missing fields gracefully
+# Basiscally, look into each stop up date and asssign if the bus is delayed or not for arrival and departure
 
+# the step below reformats the extracted data into a list of dictionaries for DataFrame conversion
         rows.append(
             {
                 "feed_timestamp": feed_ts,
